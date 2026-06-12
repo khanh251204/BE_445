@@ -1,6 +1,6 @@
 flask
 flask-cors
+Flask-JWT-Extended
 pyodbc
 pytest
 requests
-pytest
