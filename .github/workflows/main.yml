@@ -40,7 +40,7 @@ jobs:
 
       - name: Check API Health
         run: |
-          curl --fail http://127.0.0.1:5000/ || (cat app.log && exit 1)
+          curl --fail http://127.0.0.1:5000/api/employees || (cat app.log && exit 1)
 
       - name: Run Tests
         run: |
