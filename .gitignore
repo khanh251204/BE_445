@@ -8,6 +8,6 @@ __pycache__/
 __pycache__/
 *.pyc
 
-/tests
+# /tests
 
 /utils/token_util.py

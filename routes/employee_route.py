@@ -7,7 +7,7 @@ employee_bp = Blueprint("employee_bp", __name__)
 def get_all():
     return EmployeeController.get_all()
 
-@employee_bp.route("/employees/<int:id>", methods=["GET"])
+@employee_bp.route("/employee/<int:id>", methods=["GET"])
 def get_one(id):
     return EmployeeController.get_one(id)
 
