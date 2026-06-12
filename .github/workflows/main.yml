@@ -24,6 +24,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+
+      - name: Start Flask App
+        env:
+          JWT_SECRET_KEY: test-secret
+        run: |
+          echo "Starting Flask..."
+          python app.py > app.log 2>&1 &
+          sleep 3
+          echo "===== APP LOG ====="
+          cat app.log
       # START FLASK
       - name: Start Flask App
         env:
