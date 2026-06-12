@@ -24,13 +24,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # START FLASK STABLE
+      # START FLASK
       - name: Start Flask App
+        env:
+          JWT_SECRET_KEY: test-secret
         run: |
-          python app.py &
-          echo $! > flask.pid
+          python app.py > app.log 2>&1 &
+          sleep 5
+          cat app.log
 
-      # CHECK SERVER IS ALIVE
+      # CHECK SERVER
       - name: Check API Health
         run: |
           curl --fail http://127.0.0.1:5000/ || cat app.log
