@@ -6,4 +6,3 @@ pymysql
 pytest
 requests
 dotenv
-os
