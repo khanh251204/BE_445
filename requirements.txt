@@ -2,5 +2,8 @@ flask
 flask-cors
 Flask-JWT-Extended
 pyodbc
+pymysql
 pytest
 requests
+dotenv
+os
