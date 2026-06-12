@@ -24,11 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # START FLASK (ổn định hơn flask run)
+      # START FLASK STABLE
       - name: Start Flask App
         run: |
-          python app.py &
-          sleep 5
+          nohup python app.py > app.log 2>&1 &
+          sleep 7
 
+      # CHECK SERVER IS ALIVE
+      - name: Check API Health
+        run: |
+          curl --fail http://127.0.0.1:5000/ || cat app.log
+
+      # RUN TEST
       - name: Run tests
         run: pytest tests/ -v
