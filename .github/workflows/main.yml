@@ -27,8 +27,8 @@ jobs:
       # START FLASK STABLE
       - name: Start Flask App
         run: |
-          nohup python app.py > app.log 2>&1 &
-          sleep 7
+          python app.py &
+          echo $! > flask.pid
 
       # CHECK SERVER IS ALIVE
       - name: Check API Health
