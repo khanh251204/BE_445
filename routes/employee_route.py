@@ -22,3 +22,24 @@ def update(id):
 @employee_bp.route("/employees/<int:id>", methods=["DELETE"])
 def delete(id):
     return EmployeeController.delete(id)
+
+
+from config.human import get_connection
+@employee_bp.route("/health/db")
+def health_db():
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT DB_NAME()")
+        db = cursor.fetchone()
+
+        return {
+            "status": "ok",
+            "db": str(db)
+        }
+
+    except Exception as e:
+        return {
+            "status": "fail",
+            "error": str(e)
+        }, 500

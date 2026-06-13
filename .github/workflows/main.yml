@@ -43,6 +43,10 @@ jobs:
       - name: Show Flask Log
         run: |
           cat app.log
+      
+      - name: Check DB Health
+        run: |
+          curl --fail http://localhost:5000/api/health/db || (cat app.log && exit 1)
 
       - name: Check API Health
         run: |
