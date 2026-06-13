@@ -17,6 +17,24 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      # =========================
+      #  INSTALL ODBC DRIVER (FIX LỖI CỦA BẠN)
+      # =========================
+      - name: Install ODBC Driver 18 for SQL Server
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl gnupg
+
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          sudo apt-get install -y unixodbc-dev
+
+      # =========================
+      #  SETUP PYTHON
+      # =========================
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -27,6 +45,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # =========================
+      #  START FLASK APP
+      # =========================
       - name: Start Flask App
         env:
           JWT_SECRET_KEY: test-secret
@@ -34,27 +55,45 @@ jobs:
           DATABASE_HUMAN_AWS: HUMAN
           PASSWORD_HUMAN_AWS: ${{ secrets.PASSWORD_HUMAN_AWS }}
         run: |
-           python app.py > app.log 2>&1 &
-            
-            echo "Waiting for API..."
-            for i in {1..30}; do
-              curl -s http://127.0.0.1:5000/api/health/db && break
-              echo "Waiting... $i"
-              sleep 2
-            done
+          python app.py > app.log 2>&1 &
 
+          echo "Waiting for API..."
+
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1:5000/api/health/db; then
+              echo "API READY"
+              break
+            fi
+
+            echo "Waiting... $i"
+            sleep 2
+          done
+
+      # =========================
+      #  SHOW LOG
+      # =========================
       - name: Show Flask Log
+        if: always()
         run: |
-          cat app.log
-      
+          cat app.log || true
+
+      # =========================
+      #  TEST DB HEALTH
+      # =========================
       - name: Check DB Health
         run: |
-          curl --fail http://localhost:5000/api/health/db || (cat app.log && exit 1)
+          curl --fail http://127.0.0.1:5000/api/health/db || (cat app.log && exit 1)
 
+      # =========================
+      #  TEST API
+      # =========================
       - name: Check API Health
         run: |
           curl --fail http://127.0.0.1:5000/api/employees || (cat app.log && exit 1)
 
+      # =========================
+      #  PYTEST
+      # =========================
       - name: Run Tests
         run: |
           pytest tests/ -v
