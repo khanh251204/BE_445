@@ -1,80 +1,46 @@
-from config.human import get_connection
+from repositories.employee_repository import EmployeeRepository
+from models.employee_model import Employee
+
 
 class EmployeeService:
 
-    # GET ALL
-    def get_employees(self):
-        conn = get_connection()
-        cursor = conn.cursor()
+    def __init__(self):
+        self.repo = EmployeeRepository()
 
-        cursor.execute("SELECT * FROM Employees")
+    def get_all_employees(self):
+        return self.repo.get_all()
 
-        columns = [col[0] for col in cursor.description]
-        rows = cursor.fetchall()
+    def get_employee_by_id(self, employee_id):
 
-        conn.close()
+        if employee_id <= 0:
+            raise ValueError("Employee ID must be greater than 0")
 
-        return [dict(zip(columns, row)) for row in rows]
+        return self.repo.get_by_id(employee_id)
 
-    # GET ONE
-    def get_employee(self, employee_id):
-        conn = get_connection()
-        cursor = conn.cursor()
+    def create_employee(self, employee: Employee):
 
-        cursor.execute(
-            "SELECT * FROM Employees WHERE id = ?",
-            employee_id
-        )
+        if not employee.full_name:
+            raise ValueError("Full name is required")
 
-        row = cursor.fetchone()
-        columns = [col[0] for col in cursor.description]
+        if not employee.email:
+            raise ValueError("Email is required")
 
-        conn.close()
+        return self.repo.create(employee)
 
-        return dict(zip(columns, row)) if row else None
+    def update_employee(self, employee_id, employee: Employee):
 
-    # CREATE
-    def create_employee(self, data):
-        conn = get_connection()
-        cursor = conn.cursor()
+        existing_employee = self.repo.get_by_id(employee_id)
 
-        cursor.execute("""
-            INSERT INTO Employees (name, email, phone, status)
-            VALUES (?, ?, ?, ?)
-        """, data["name"], data["email"], data["phone"], "active")
+        if not existing_employee:
+            raise ValueError("Employee not found")
 
-        conn.commit()
-        conn.close()
+        return self.repo.update(employee_id, employee)
 
-        return True
-
-    # UPDATE
-    def update_employee(self, employee_id, data):
-        conn = get_connection()
-        cursor = conn.cursor()
-
-        cursor.execute("""
-            UPDATE Employees
-            SET name = ?, email = ?, phone = ?
-            WHERE id = ?
-        """, data["name"], data["email"], data["phone"], employee_id)
-
-        conn.commit()
-        conn.close()
-
-        return True
-
-    # DELETE
     def delete_employee(self, employee_id):
-        conn = get_connection()
-        cursor = conn.cursor()
 
-        cursor.execute(
-            "DELETE FROM Employees WHERE id = ?",
-            employee_id
-        )
+        existing_employee = self.repo.get_by_id(employee_id)
 
-        conn.commit()
-        conn.close()
+        if not existing_employee:
+            raise ValueError("Employee not found")
 
-        return True
+        return self.repo.delete(employee_id)

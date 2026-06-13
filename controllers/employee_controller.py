@@ -1,37 +1,138 @@
 from flask import request, jsonify
+
 from services.employee_service import EmployeeService
+from models.employee_model import Employee
 
 service = EmployeeService()
+
 
 class EmployeeController:
 
     @staticmethod
     def get_all():
-        data = service.get_employees()
-        return jsonify(data), 200
+        try:
+            employees = service.get_all_employees()
+
+            return jsonify({
+                "message": "Success",
+                "data": [
+                    employee.to_dict()
+                    for employee in employees
+                ]
+            }), 200
+
+        except Exception as e:
+            return jsonify({
+                "message": "Error",
+                "error": str(e)
+            }), 500
 
     @staticmethod
-    def get_one(id):
-        data = service.get_employee(id)
+    def get_one(employee_id):
+        try:
+            employee = service.get_employee_by_id(employee_id)
 
-        if not data:
-            return jsonify({"message": "Not found"}), 404
+            if not employee:
+                return jsonify({
+                    "message": "Not Found"
+                }), 404
 
-        return jsonify(data), 200
+            return jsonify({
+                "message": "Successfully",
+                "data": employee.to_dict()
+            }), 200
+
+        except ValueError as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
+
+        except Exception as e:
+            return jsonify({
+                "message": "Error",
+                "error": str(e)
+            }), 500
 
     @staticmethod
     def create():
-        data = request.json
-        service.create_employee(data)
-        return jsonify({"message": "Created"}), 201
+        try:
+            data = request.get_json()
+
+            employee = Employee(
+                full_name=data.get("full_name"),
+                email=data.get("email"),
+                phone_number=data.get("phone_number"),
+                gender=data.get("gender"),
+                date_of_birth=data.get("date_of_birth"),
+                department_id=data.get("department_id"),
+                position_id=data.get("position_id")
+            )
+
+            service.create_employee(employee)
+
+            return jsonify({
+                "message": "Employee created successfully"
+            }), 201
+
+        except ValueError as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
+
+        except Exception as e:
+            return jsonify({
+                "message": "Error",
+                "error": str(e)
+            }), 500
 
     @staticmethod
-    def update(id):
-        data = request.json
-        service.update_employee(id, data)
-        return jsonify({"message": "Updated"}), 200
+    def update(employee_id):
+        try:
+            data = request.get_json()
+
+            employee = Employee(
+                full_name=data.get("full_name"),
+                email=data.get("email"),
+                phone_number=data.get("phone_number"),
+                gender=data.get("gender"),
+                date_of_birth=data.get("date_of_birth"),
+                department_id=data.get("department_id"),
+                position_id=data.get("position_id")
+            )
+
+            service.update_employee(employee_id, employee)
+
+            return jsonify({
+                "message": "Employee updated successfully"
+            }), 200
+
+        except ValueError as e:
+            return jsonify({
+                "message": str(e)
+            }), 400
+
+        except Exception as e:
+            return jsonify({
+                "message": "Error",
+                "error": str(e)
+            }), 500
 
     @staticmethod
-    def delete(id):
-        service.delete_employee(id)
-        return jsonify({"message": "Deleted"}), 200
+    def delete(employee_id):
+        try:
+            service.delete_employee(employee_id)
+
+            return jsonify({
+                "message": "Employee deleted successfully"
+            }), 200
+
+        except ValueError as e:
+            return jsonify({
+                "message": str(e)
+            }), 404
+
+        except Exception as e:
+            return jsonify({
+                "message": "Error",
+                "error": str(e)
+            }), 500
