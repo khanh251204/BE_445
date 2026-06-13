@@ -27,11 +27,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           
-      - name: Create .env file
+      - name: Start Flask App
+        env:
+          SERVER_HUMAN_AWS: ${{ secrets.SERVER_HUMAN_AWS }}
+          DATABASE_HUMAN_AWS: HUMAN
+          PASSWORD_HUMAN_AWS: ${{ secrets.PASSWORD_HUMAN_AWS }}
         run: |
-          echo "SERVER_HUMAN_AWS=${{ secrets.SERVER_HUMAN_AWS }}" >> .env
-          echo "DATABASE_HUMAN_AWS=HUMAN" >> .env
-          echo "PASSWORD_HUMAN_AWS=${{ secrets.PASSWORD_HUMAN_AWS }}" >> .env
+          python app.py
 
       - name: Start Flask App
         env:
