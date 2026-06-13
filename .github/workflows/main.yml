@@ -26,18 +26,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
-      - name: Start Flask App
-        env:
-          SERVER_HUMAN_AWS: ${{ secrets.SERVER_HUMAN_AWS }}
-          DATABASE_HUMAN_AWS: HUMAN
-          PASSWORD_HUMAN_AWS: ${{ secrets.PASSWORD_HUMAN_AWS }}
-        run: |
-          python app.py
 
       - name: Start Flask App
         env:
           JWT_SECRET_KEY: test-secret
+          SERVER_HUMAN_AWS: ${{ secrets.SERVER_HUMAN_AWS }}
+          DATABASE_HUMAN_AWS: HUMAN
+          PASSWORD_HUMAN_AWS: ${{ secrets.PASSWORD_HUMAN_AWS }}
         run: |
           python app.py > app.log 2>&1 &
           sleep 10
