@@ -26,7 +26,8 @@ PASSWORD = os.getenv("PASSWORD_HUMAN_AWS")
 def get_connection():
     SERVER = os.getenv("SERVER_HUMAN_AWS")
     PASSWORD = os.getenv("PASSWORD_HUMAN_AWS")
-
+    print("SERVER:", SERVER)
+    print("PASSWORD OK:", bool(PASSWORD))
     conn = pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};"
         f"SERVER={SERVER},1433;"

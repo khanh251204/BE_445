@@ -25,6 +25,7 @@ def delete(id):
 
 
 from config.human import get_connection
+import traceback
 @employee_bp.route("/health/db")
 def health_db():
     try:
@@ -39,6 +40,8 @@ def health_db():
         }
 
     except Exception as e:
+        print("DB ERROR:", e)
+        print(traceback.format_exc())
         return {
             "status": "fail",
             "error": str(e)
