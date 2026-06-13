@@ -38,6 +38,9 @@ def get_connection():
         "Connection Timeout=30;"
     )
 
-    print("CONNECTED TO HUMAN DB")
+    cursor = conn.cursor()
+    cursor.execute("USE HUMAN")
+
+    print("Connected to HUMAN DB")
 
     return conn
