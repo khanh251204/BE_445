@@ -1,3 +1,4 @@
 ID,Description,EmployeeID,ExpectedStatus,ExpectedMessage
 TC01,Valid employee,1,200,Successfully
 TC02,Not found employee,9999,404,Not Found
+TC03,Invalid employee ID,0,404,Not Found

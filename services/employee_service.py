@@ -15,9 +15,6 @@ class EmployeeService:
     def get_employee_by_id(self, employee_id):
 
         existing_employee = self.repo.get_by_id(employee_id)
-
-        if not existing_employee:
-            raise ValueError("Employee not found")
         return existing_employee
 
     def create_employee(self, employee: Employee):
