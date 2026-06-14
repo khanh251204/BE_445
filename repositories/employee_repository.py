@@ -1,3 +1,5 @@
+
+
 from config.human import get_connection
 from models.employee_model import Employee
 
@@ -14,6 +16,7 @@ def map_row_to_employee(row, columns):
         date_of_birth=data.get("DateOfBirth"),
         department_id=data.get("DepartmentID"),
         position_id=data.get("PositionID"),
+        hire_date=data.get("HireDate"),
         status=data.get("Status"),
         created_at=data.get("CreatedAt"),
         updated_at=data.get("UpdatedAt")
@@ -77,9 +80,10 @@ class EmployeeRepository:
                     DateOfBirth,
                     DepartmentID,
                     PositionID,
+                    HireDate,
                     Status
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 employee.full_name,
                 employee.email,
@@ -88,7 +92,8 @@ class EmployeeRepository:
                 employee.date_of_birth,
                 employee.department_id,
                 employee.position_id,
-                "active"
+                employee.hire_date,
+                employee.status
             ))
 
             conn.commit()
@@ -147,6 +152,22 @@ class EmployeeRepository:
             conn.commit()
 
             return cursor.rowcount > 0
+
+        finally:
+            conn.close()
+            
+            
+    def email_exists(self, email):
+        conn = get_connection()
+        try:
+            cursor = conn.cursor()
+
+            cursor.execute(
+                "SELECT 1 FROM Employees WHERE Email = ?",
+                (email,)
+            )
+
+            return cursor.fetchone() is not None
 
         finally:
             conn.close()

@@ -11,15 +11,15 @@ def get_all():
 def get_one(id):
     return EmployeeController.get_one(id)
 
-@employee_bp.route("/employees", methods=["POST"])
+@employee_bp.route("/employee", methods=["POST"])
 def create():
     return EmployeeController.create()
 
-@employee_bp.route("/employees/<int:id>", methods=["PUT"])
+@employee_bp.route("/employee/<int:id>", methods=["PUT"])
 def update(id):
     return EmployeeController.update(id)
 
-@employee_bp.route("/employees/<int:id>", methods=["DELETE"])
+@employee_bp.route("/employee/<int:id>", methods=["DELETE"])
 def delete(id):
     return EmployeeController.delete(id)
 

@@ -9,6 +9,7 @@ class Employee:
                  date_of_birth=None,
                  department_id=None,
                  position_id=None,
+                 hire_date=None,
                  status=None,
                  created_at=None,
                  updated_at=None):
@@ -21,6 +22,7 @@ class Employee:
         self.date_of_birth = date_of_birth
         self.department_id = department_id
         self.position_id = position_id
+        self.hire_date = hire_date
         self.status = status
         self.created_at = created_at
         self.updated_at = updated_at
@@ -35,6 +37,7 @@ class Employee:
             "DateOfBirth": self.date_of_birth,
             "DepartmentID": self.department_id,
             "PositionID": self.position_id,
+            "HireDate": self.hire_date,
             "Status": self.status,
             "CreatedAt": self.created_at,
             "UpdatedAt": self.updated_at
