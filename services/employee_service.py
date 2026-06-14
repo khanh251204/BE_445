@@ -1,3 +1,5 @@
+import re
+
 from repositories.employee_repository import EmployeeRepository
 from models.employee_model import Employee
 
@@ -12,10 +14,11 @@ class EmployeeService:
 
     def get_employee_by_id(self, employee_id):
 
-        if employee_id <= 0:
-            raise ValueError("Employee ID must be greater than 0")
+        existing_employee = self.repo.get_by_id(employee_id)
 
-        return self.repo.get_by_id(employee_id)
+        if not existing_employee:
+            raise ValueError("Employee not found")
+        return existing_employee
 
     def create_employee(self, employee: Employee):
 
@@ -24,6 +27,13 @@ class EmployeeService:
 
         if not employee.email:
             raise ValueError("Email is required")
+        
+        # Kiểm tra xem đúng định dang email chưa 
+        if not re.match(r"^[^@]+@[^@]+\.[^@]+$", employee.email):
+            raise ValueError("Invalid email format")
+        
+        if self.repo.email_exists(employee.email):
+            raise ValueError("Email already exists")
 
         return self.repo.create(employee)
 

@@ -59,13 +59,15 @@ class EmployeeController:
             data = request.get_json()
 
             employee = Employee(
-                full_name=data.get("full_name"),
-                email=data.get("email"),
-                phone_number=data.get("phone_number"),
-                gender=data.get("gender"),
-                date_of_birth=data.get("date_of_birth"),
-                department_id=data.get("department_id"),
-                position_id=data.get("position_id")
+                full_name=data.get("FullName"),
+                email=data.get("Email"),
+                phone_number=data.get("PhoneNumber"),
+                gender=data.get("Gender"),
+                date_of_birth=data.get("DateOfBirth"),
+                department_id=data.get("DepartmentID"),
+                hire_date=data.get("HireDate"),
+                position_id=data.get("PositionID"),
+                status=data.get("Status")
             )
 
             service.create_employee(employee)
@@ -91,13 +93,13 @@ class EmployeeController:
             data = request.get_json()
 
             employee = Employee(
-                full_name=data.get("full_name"),
-                email=data.get("email"),
-                phone_number=data.get("phone_number"),
-                gender=data.get("gender"),
-                date_of_birth=data.get("date_of_birth"),
-                department_id=data.get("department_id"),
-                position_id=data.get("position_id")
+                full_name=data.get("FullName"),
+                email=data.get("Email"),
+                phone_number=data.get("PhoneNumber"),
+                gender=data.get("Gender"),
+                date_of_birth=data.get("DateOfBirth"),
+                department_id=data.get("DepartmentID"),
+                position_id=data.get("PositionID")
             )
 
             service.update_employee(employee_id, employee)
