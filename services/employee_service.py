@@ -61,19 +61,25 @@ class EmployeeService:
 
     def update_employee(self, employee_id, employee: Employee):
         
-        if not employee_id:
-            raise ValueError("Employee ID is required")
-        
         if not employee.full_name:
             raise ValueError("Full name is required")
+        
+        if len(employee.full_name) > 100:
+            raise ValueError("Full name cannot exceed 100 characters")
         
         if not employee.email:
             raise ValueError("Email is required")
         
+        if len(employee.email) > 100:
+            raise ValueError("Email cannot exceed 100 characters")
+        
         if not re.match(r"^[^@]+@[^@]+\.[^@]+$", employee.email):
             raise ValueError("Invalid email format")
         
-        dob = employee.date_of_birth
+        dob = datetime.strptime(
+            employee.date_of_birth,
+            "%Y-%m-%d"
+        ).date()
         today = date.today()
         if dob and dob > today:
             raise ValueError("Date of birth cannot be in the future")
@@ -86,8 +92,14 @@ class EmployeeService:
 
         if not existing_employee:
             raise ValueError("Employee not found")
-
+        
+        
+        if self.repo.email_exists(employee.email):
+            raise ValueError("Email already exists")
+        
         return self.repo.update(employee_id, employee)
+
+        
 
     def delete_employee(self, employee_id):
         

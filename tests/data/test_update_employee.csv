@@ -1,0 +1,11 @@
+employee_id,full_name,email,date_of_birth,expected_error
+0,Nguyen Van A,vana@gmail.com,1995-05-10,Employee not found
+1,,vana@gmail.com,1995-05-10,Full name is required
+1,Nguyen Van Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,vana@gmail.com,1995-05-10,Full name cannot exceed 100 characters
+1,Nguyen Van A,,1995-05-10,Email is required
+1,Nguyen Van A,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com,1995-05-10,Email cannot exceed 100 characters
+1,Nguyen Van A,abcgmail.com,1995-05-10,Invalid email format
+1,Nguyen Van A,b@gmail.com,1995-05-10,Email already exists
+1,Nguyen Van A,an.nguyen@company.vn,2030-01-01,Date of birth cannot be in the future
+1,Nguyen Van A,an.nguyen@company.vn,2009-01-01,Employee must be between 18 and 65 years old
+1,Nguyen Van A,nguyenvana_new@gmail.com,1995-05-10,
