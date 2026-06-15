@@ -5,6 +5,6 @@ Nguyen Van A,,1995-05-10,Email is required
 Nguyen Van A,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com,1995-05-10,Email cannot exceed 100 characters
 Nguyen Van A,abcgmail.com,1995-05-10,Invalid email format
 Nguyen Van A,b@gmail.com,1995-05-10,Email already exists
-Nguyen Van A,an.nguyen@company.vn,2030-01-01,Date of birth cannot be in the future
-Nguyen Van A,an.nguyen@company.vn,2009-01-01,Employee must be between 18 and 65 years old
+Nguyen Van A,an1.nguyen@company.vn,2030-01-01,Date of birth cannot be in the future
+Nguyen Van A,an1.nguyen@company.vn,2009-01-01,Employee must be between 18 and 65 years old
 Nguyen Van A,nguyenvana_new@gmail.com,1995-05-10,
